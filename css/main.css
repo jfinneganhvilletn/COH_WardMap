@@ -6,3 +6,12 @@ body,
     height: 100%;
     width: 100%;
 }
+#info {
+    backgroud: rgb(128, 128, 128);
+    box-shadow: 0 0 5px #888;
+    left: 4.5em;
+    padding: 0.5em;
+    position: absolute;
+    top: 1em;
+    z-index: 35;
+}
