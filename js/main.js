@@ -5,10 +5,11 @@ require([
     "esri/config",
     "esri/Map",
     "esri/views/MapView",
-    "esri/layers/FeatureLayer"
+    "esri/layers/FeatureLayer",
+    "esri/widgets/Legend"
 
 
-], function (esriConfig, Map, MapView, FeatureLayer) {
+], function (esriConfig, Map, MapView, FeatureLayer, Legend) {
     esriConfig.apiKey = "AAPK7745abd4b6254f8bb2efb209ba35bc7czdt4qsdbofn6rm5yG0_0eCN4FWD40e4zBuNOF8teRErBo2twTW2zFZiHqTtl5AAq"
 
     const map = new Map({
@@ -61,6 +62,14 @@ require([
 
     });
 
+    const legend = new Legend({
+        view: view,
+        container: "legendDiv"
+    });
+
     map.add(WardsLayer);
+
+    view.ui.add(legend, "bottom-right");
+
 
 });
