@@ -7,11 +7,20 @@ body,
     width: 100%;
 }
 #info {
-    backgroud: rgb(128, 128, 128);
-    box-shadow: 0 0 5px #888;
+    background: white;
+    box-shadow: 0 0 5px rgb(147, 144, 144);
     left: 4.5em;
     padding: 0.5em;
     position: absolute;
     top: 1em;
     z-index: 35;
+}
+#Email {
+    background: white;
+    box-shadow: 0 0 5px rgb(147, 144, 144);
+    left: 0.5em;
+    padding: 0.5em;
+    position: absolute;
+    bottom: 1.25em;
+    z-index: 12.5;
 }
