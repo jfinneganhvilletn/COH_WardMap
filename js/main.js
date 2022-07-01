@@ -63,8 +63,7 @@ require([
     const WardsLayer = new FeatureLayer({
         url: "https://services8.arcgis.com/xMDlahVcw6bSUp5O/arcgis/rest/services/City_of_Hendersonville/FeatureServer/45",
         popupTemplate: template,
-        popup: {autoOpenEnabled: true
-        }
+        
 
     });
 
@@ -86,7 +85,7 @@ require([
     const searchbar = new Search({
         view: view,
         goToOverride: () => null,
-        popupOpenOnSelect: false
+        popupOpenOnSelect: true
     });
 
     searchbar.on('select-result', function(evt){
@@ -104,10 +103,25 @@ require([
             });
         });
     });
-        
-
 
     map.add(WardsLayer);
+
+    view.on("pointer-move", function(evt){
+        view.hitTest(evt).then(function(response){
+            if(response.results.length){
+                var graphic = response.results.filter(function(result){
+                    return result.graphic.layer === WardsLayer;
+                })[0].graphic;
+                view.popup.open({
+                    location: graphic.geometry.centroid,
+                    features: [graphic]
+                });
+            }
+            else{
+                view.popup.close();
+            }
+        });
+    });
 
     view.ui.add(legend, "bottom-right");
 
