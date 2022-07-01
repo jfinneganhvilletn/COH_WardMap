@@ -106,7 +106,9 @@ require([
 
     map.add(WardsLayer);
 
+    
     view.on("pointer-move", function(evt){
+        view.popup.close();
         view.hitTest(evt).then(function(response){
             if(response.results.length){
                 var graphic = response.results.filter(function(result){
