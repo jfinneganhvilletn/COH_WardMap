@@ -8,7 +8,8 @@ require([
     "esri/layers/FeatureLayer",
     "esri/widgets/Legend",
     "esri/widgets/Locate",
-    "esri/widgets/Search"
+    "esri/widgets/Search",
+    "dojo/domReady!"
 
 
 ], function (esriConfig, Map, MapView, FeatureLayer, Legend, Locate, Search) {
@@ -18,10 +19,11 @@ require([
         basemap: "arcgis-navigation-night" // Basemap Layer Service
     });
 
+    
     const view = new MapView({
         map: map,
         center: [-86.613628, 36.305479],
-        zoom: 12.5, //zoom level
+        zoom: 11.5, //zoom level
         container: "viewDiv" // Div Element
     });
     
@@ -59,14 +61,17 @@ require([
 //Referencing the popul template
 //Adding in Wards Layer
     const WardsLayer = new FeatureLayer({
-        url: "https://services8.arcgis.com/xMDlahVcw6bSUp5O/arcgis/rest/services/City_of_Hendersonville/FeatureServer/16",
-        popupTemplate: template
+        url: "https://services8.arcgis.com/xMDlahVcw6bSUp5O/arcgis/rest/services/City_of_Hendersonville/FeatureServer/45",
+        popupTemplate: template,
+        popup: {autoOpenEnabled: true
+        }
 
     });
 
     const legend = new Legend({
+        container: "legendDiv",
         view: view,
-        container: "legendDiv"
+       
     });
 
     const locate = new Locate({
@@ -80,7 +85,27 @@ require([
 
     const searchbar = new Search({
         view: view,
+        goToOverride: () => null,
+        popupOpenOnSelect: false
     });
+
+    searchbar.on('select-result', function(evt){
+        let query = sections.createQuery();
+        query.geometry = evt.result.WardsLayer.geometry;
+        query.spatialRelationship = "within";
+        query.WardsLayer.outFields = ["*"];
+        query.returnGeometry = true;    
+        query.outSpatialReference = view.spatialReference;
+        query.maxAllowableOffset = 0;
+        sections.queryFeatures(query).ten(function(result){
+            view.popup.open({
+                features: result.WardsLayer,
+                location: result.WardsLayer[0].geometry.centroid
+            });
+        });
+    });
+        
+
 
     map.add(WardsLayer);
 

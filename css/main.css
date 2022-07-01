@@ -24,3 +24,19 @@ body,
     bottom: 1.25em;
     z-index: 12.5;
 }
+
+#legendDiv {
+    width: 360;
+    height: 375px;
+    position: relative;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    align-items: stretch;
+}
+
+img {
+    object-fit: contain;
+    width: 270px;
+    height: 375px;
+}
